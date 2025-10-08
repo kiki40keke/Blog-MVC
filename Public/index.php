@@ -5,6 +5,8 @@ declare(strict_types=1);
 use App\Config\Config;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
+// Pour mesurer le temps de génération de la page
+define('DEBUG_TIME', microtime(true));
 
 // ----- Chargement config & environnement
 Config::load();
@@ -15,6 +17,10 @@ session_start();
 
 // ----- (Optionnel) Définir une constante BASE_URL pour tes vues
 define('BASE_URL', rtrim(Config::get('base_url', '/'), '/'));
+// woops pour le debug
+$whoops = new \Whoops\Run;
+$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+$whoops->register();
 
 // ----- Connexion PDO
 try {

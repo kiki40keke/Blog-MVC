@@ -1,0 +1,5 @@
+.big-image {
+  width: 400px;    /* ou 100%, ou auto selon le rendu désiré */
+  height: auto;    /* garde le ratio d'origine */
+  /* Tu peux aussi ajouter d'autres propriétés si besoin */
+}
