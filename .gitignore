@@ -1,3 +1,35 @@
-bouillon.txt
-/vendor
+# ====================================
+# 📦 Dépendances
+# ====================================
+/vendor/
+
+# ====================================
+# ⚙️ Environnements & config sensibles
+# ====================================
 /.env
+/.env.local
+/.env.*.local
+config/*.local.php
+
+# ====================================
+# 🧰 Fichiers temporaires / cache
+# ====================================
+/node_modules/
+/cache/
+/storage/
+/logs/
+/tmp/
+/sessions/
+/coverage/
+
+# ====================================
+# 🧑‍💻 IDE / Éditeurs
+# ====================================
+# VSCode
+.vscode/
+.history/
+
+# PhpStorm / JetBrains
+.idea/
+
+# ====================================

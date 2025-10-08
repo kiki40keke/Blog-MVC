@@ -5,7 +5,8 @@
     "symfony/var-dumper": "^7.3",
     "filp/whoops": "^2.18",
     "fakerphp/faker": "^1.24",
-    "vlucas/valitron": "^1.4"
+    "vlucas/valitron": "^1.4",
+    "vlucas/phpdotenv": "^5.6"
   },
   "autoload": {
     "psr-4": {
