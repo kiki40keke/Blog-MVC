@@ -123,4 +123,9 @@ class Router
         // Si vous avez une vue 404 : echo $this->render('layouts/404');
         echo $this->render('layouts/404', ['message' => $message]);
     }
+
+    public function setBasePath(string $basePath): void
+    {
+        $this->router->setBasePath($basePath);
+    }
 }

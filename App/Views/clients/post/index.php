@@ -1,0 +1,1 @@
+<h1>ceci est la page d'index des posts</h1>
