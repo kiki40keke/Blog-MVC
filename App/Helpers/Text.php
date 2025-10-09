@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Helpers;
+
 class Text
 {
     public static function excerpt(string $text, int $max = 60): string
@@ -13,5 +15,10 @@ class Text
             $excerpt = mb_substr($excerpt, 0, $lastSpace);
         }
         return $excerpt . '...';
+    }
+
+    public static function e(?string $content): string
+    {
+        return htmlentities($content ?? '', ENT_QUOTES, 'UTF-8');
     }
 }

@@ -77,7 +77,7 @@ class Post
 
     public function getFormatedContent(): ?string
     {
-        return nl2br(e($this->content));
+        return nl2br(Text::e($this->content));
     }
 
     public function getFormatDate(string $format = 'd F Y')

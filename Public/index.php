@@ -14,11 +14,27 @@ define('DEBUG_TIME', microtime(true));
 Config::load();
 
 // ----- Paramètres globaux
-date_default_timezone_set(Config::get('timezone', 'UTC'));
+define('APP_TIMEZONE', Config::get('timezone', 'UTC'));
+date_default_timezone_set(APP_TIMEZONE);
 session_start();
 
 // ----- BASE_URL (pour tes assets)
-define('BASE_URL', rtrim(Config::get('base_url', '/'), '/') ?: '');
+define('BASE_URL', rtrim(Config::get('base_url', '/'), '/'));
+// Dossier racine du projet (par rapport à index.php)
+define('ROOT_DIR', dirname(__DIR__));
+
+// Dossier public
+define('PUBLIC_DIR', ROOT_DIR . '/public');
+
+// Dossier images
+define('IMG_DIR', PUBLIC_DIR . '/img');
+
+// Dossier images de posts
+define('POST_IMG_DIR', IMG_DIR . '/post');
+
+
+
+
 
 // ----- Whoops (debug)
 $whoops = new \Whoops\Run;

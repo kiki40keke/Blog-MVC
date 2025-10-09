@@ -63,12 +63,12 @@ final class Upload
 
 
         // Créer le dossier si nécessaire
-        if (!is_dir(ABS_DIR) && !mkdir(ABS_DIR, 0775, true) && !is_dir(ABS_DIR)) {
+        if (!is_dir(POST_IMG_DIR) && !mkdir(POST_IMG_DIR, 0775, true) && !is_dir(POST_IMG_DIR)) {
             return false; // impossible de créer le dossier
         }
 
         // Déplacer le fichier
-        $target = ABS_DIR . DIRECTORY_SEPARATOR . $filename;
+        $target = POST_IMG_DIR . DIRECTORY_SEPARATOR . $filename;
         if (!move_uploaded_file($file['tmp_name'], $target)) {
             return false;
         }
@@ -92,7 +92,7 @@ final class Upload
         if (empty($filename)) {
             return false;
         }
-        $target = ABS_DIR . DIRECTORY_SEPARATOR . $filename;
+        $target = POST_IMG_DIR . DIRECTORY_SEPARATOR . $filename;
         $filePath = realpath($target);
         if (is_file($filePath)) {
             return unlink($filePath);

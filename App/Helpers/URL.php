@@ -22,4 +22,11 @@ final class URL
         }
         return $param;
     }
+
+    public static function isAdminUrl(): bool
+    {
+        $uri  = $_SERVER['REQUEST_URI'] ?? '/';
+        $path = parse_url($uri, PHP_URL_PATH);
+        return str_starts_with($path, '/admin');
+    }
 }

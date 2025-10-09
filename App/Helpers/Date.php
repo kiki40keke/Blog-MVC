@@ -56,4 +56,14 @@ final class Date
 
         throw new InvalidArgumentException('Format de date invalide.');
     }
+
+    public static function toMysql(?string $value): ?string
+    {
+        if (empty($value)) return null;
+
+        $value = str_replace('T', ' ', $value);
+        if (strlen($value) === 16) $value .= ':00';
+
+        return $value;
+    }
 }
