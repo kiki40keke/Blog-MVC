@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Table;
+namespace App\Models\Repository;
 
 use App\Models\Entity\User;
 use App\Models\Repository\Repository;

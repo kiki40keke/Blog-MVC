@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Table;
+namespace App\Models\Repository;
 
 
 use App\Models\Entity\Category;

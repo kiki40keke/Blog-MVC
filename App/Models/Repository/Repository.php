@@ -6,7 +6,7 @@ namespace App\Models\Repository;
 
 use PDO;
 use stdClass;
-use App\PaginatedQuery;
+use App\Core\PaginatedQuery;
 use App\Models\Entity\Post;
 use InvalidArgumentException;
 use App\Models\Entity\Category;
