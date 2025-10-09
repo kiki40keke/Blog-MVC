@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Clients;
 
 use App\Core\Connection;
+use App\Controllers\BaseController;
 use App\Models\Repository\PostRepository;
 use App\Models\Repository\CategoryRepository;
 
@@ -28,5 +29,3 @@ class CategoryController extends BaseController
         return $this->render('clients/category/show', compact('title', 'posts', 'paginatedquery', 'link', 'category'));
     }
 }
-
-

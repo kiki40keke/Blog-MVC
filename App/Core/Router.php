@@ -61,10 +61,17 @@ class Router
 
         [$controller, $method] = explode('@', $target, 2);
 
-        // Ajoute le namespace si nécessaire
+        // Normalise et préfixe intelligemment
+        $controller = ltrim($controller, '\\'); // enlève un éventuel "\" initial
+
         if (strpos($controller, '\\') === false) {
+            // Pas de namespace du tout -> App\Controllers\PostController
+            $controller = 'App\\Controllers\\' . $controller;
+        } elseif (strpos($controller, 'App\\') !== 0) {
+            // A un namespace mais pas complet -> Clients\PostController -> App\Controllers\Clients\PostController
             $controller = 'App\\Controllers\\' . $controller;
         }
+        // sinon: commence déjà par App\ => on ne touche pas
 
         $this->callController($controller, $method, $params);
     }

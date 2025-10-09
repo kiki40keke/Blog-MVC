@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Clients;
 
 use App\Core\Connection;
+use App\Controllers\BaseController;
 use App\Models\Repository\PostRepository;
 
 class PostController extends BaseController
