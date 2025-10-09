@@ -108,6 +108,7 @@ class Router
         extract($data, EXTR_SKIP);
 
         ob_start();
+        $router  = $this;
         require $viewFile;
         $content = ob_get_clean();
 

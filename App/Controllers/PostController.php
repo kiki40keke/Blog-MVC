@@ -26,4 +26,27 @@ class PostController extends BaseController
 
         return $this->render('clients/post/index', compact('title', 'posts', 'paginatedquery', 'link', 'active'));
     }
+
+    public function show(array $params): string
+    {
+        $id = (int) $params['id'];
+        $slug = $params['slug'];
+        $pdo = Connection::getPDO();
+
+        $table = new PostRepository($pdo);
+        $post = $table->findPost($id);
+
+        if ($post->getSlug() !== $slug) {
+            $url = $this->router->url('post', ['slug' => $post->getSlug(), 'id' => $id]);
+            http_response_code(301);
+            header('Location: ' . $url);
+            exit();
+        }
+
+        $table->hydratePost($post);
+
+        $title = "Article {$post->getName()}";
+
+        return $this->render('clients/post/show', compact('title', 'post'));
+    }
 }

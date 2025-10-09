@@ -8,8 +8,7 @@ use App\Helpers\Upload;
         <?php
         $categories = [];
         foreach ($post->getCategories() as $category) {
-            $url = '#';
-            // $url = $router->url('category', ['id' => $category->getId(), 'slug' => $category->getSlug()]);
+            $url = $router->url('category', ['id' => $category->getId(), 'slug' => $category->getSlug()]);
             $categories[] = <<<HTML
      <a href="{$url}">{$category->getName()}</a>
 HTML;
@@ -29,7 +28,7 @@ HTML;
                     <?php endif ?>
                     </p>
                     <p class="card-text"><?= $post->getExcept() ?>
-                        <a href="<?= '#'; // $router->url('post', ['id' => $post->getId(), 'slug' => $post->getSlug()]) 
+                        <a href="<?= $router->url('post', ['id' => $post->getId(), 'slug' => $post->getSlug()])
                                     ?>" class="btn btn-primary">Voir plus</a>
                     </p>
                 </div>
