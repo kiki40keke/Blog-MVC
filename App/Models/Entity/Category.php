@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Entity;
 
 /**
  * Represents a category in the blog system.

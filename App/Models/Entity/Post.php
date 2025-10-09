@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Entity;
 
 use DateTime;
 use App\Helpers\Text;
