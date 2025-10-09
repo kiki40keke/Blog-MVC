@@ -13,8 +13,8 @@ class Routes
         $router
             // Public (clients)
             ->get('/', 'PostController@index', 'home')
-            ->get('/blog/category/[*:slug]-[i:id]', 'Clients\\CategoryController@show', 'category')
-            ->get('/blog/[*:slug]-[i:id]',          'Clients\\PostController@show',    'post')
+            ->get('/blog/category/[*:slug]-[i:id]', 'CategoryController@show', 'category')
+            ->get('/blog/[*:slug]-[i:id]',          'PostController@show',    'post')
 
             // Auth (admin)
             ->match('/login',  'Admins\\AuthController@login',   'login')

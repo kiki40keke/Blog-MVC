@@ -27,10 +27,8 @@ class PostController extends BaseController
         return $this->render('clients/post/index', compact('title', 'posts', 'paginatedquery', 'link', 'active'));
     }
 
-    public function show(array $params): string
+    public function show(string $slug, int $id): string
     {
-        $id = (int) $params['id'];
-        $slug = $params['slug'];
         $pdo = Connection::getPDO();
 
         $table = new PostRepository($pdo);
