@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Core\Router;
 use App\Helpers\URL;
 use App\Helpers\Auth;
-
 abstract class BaseController
 {
     protected Router $router;

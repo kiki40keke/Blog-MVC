@@ -28,3 +28,5 @@ class CategoryController extends BaseController
         return $this->render('clients/category/show', compact('title', 'posts', 'paginatedquery', 'link', 'category'));
     }
 }
+
+
