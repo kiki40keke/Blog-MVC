@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Core\Router;
+use App\Core\Routes;
 use App\Config\Config;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
@@ -53,10 +54,5 @@ $router    = new Router($viewsPath);
 // Exemple: /blog-mvc/public  -> on veut /blog-mvc
 $scriptDir = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/');
 $basePath  = $scriptDir === '/' ? '' : $scriptDir;
-$router->setBasePath($basePath); // ← nécessite la petite méthode setBasePath() dans Router
-
-// Déclaration des routes (Controller@method)
-$router
-    ->get('/', 'PostController@index', 'home')
-
-    ->run();
+// Enregistrement des routes
+Routes::register($router, $basePath);
