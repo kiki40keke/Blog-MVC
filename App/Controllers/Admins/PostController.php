@@ -3,15 +3,18 @@
 namespace App\Controllers\Admins;
 
 use App\HTML\Form;
+use App\Helpers\Date;
 use App\Helpers\Text;
 use App\Helpers\Upload;
 use App\Core\Connection;
 use App\Helpers\Session;
 use App\Helpers\Hydrator;
+use App\Models\Entity\Post;
 use App\Validators\PostValidator;
 use App\Controllers\BaseController;
-use App\Models\Repository\CategoryRepository;
 use App\Models\Repository\PostRepository;
+use App\Models\Repository\CategoryRepository;
+
 
 class PostController extends BaseController
 {
@@ -95,5 +98,55 @@ class PostController extends BaseController
 
         $form = new Form($post, $errors);
         return $this->render('admins/post/edit', compact('form', 'categories', 'post', 'link', 'errors', 'title', 'active'));
+    }
+
+    public function new(): string
+    {
+        $title = "Nouvel article";
+        $active = 'articles';
+        $link = $this->router->url('admin_posts');
+
+        $pdo = Connection::getPDO();
+
+        $errors = [];
+        $post = new Post();
+        $post->setCreated_at(date('Y-m-d H:i:s'));
+        $categoryTable = new CategoryRepository($pdo);
+        $categories = $categoryTable->listCategorie();
+        //dd($categories);
+        if (!empty($_POST)) {
+
+            $table = new PostRepository($pdo);
+            $data = $_POST + ['categories_id' => []] + $_FILES;
+
+            $v = new PostValidator($data, $table, $categories, $post->getId());
+
+            if ($v->validate()) {
+
+                $data['created_at'] = Date::normalizeCreatedAt($data['created_at']);
+                Hydrator::hydrate($post, $data, ['name', 'slug', 'content', 'created_at', 'image']);
+                $idCategories = array_values(array_unique(
+                    array_filter(array_map('intval', $data['categories_id']), fn($v) => $v > 0)
+                ));
+
+                $id = $table->insertPost($post, $idCategories);
+                if ($id > 0) {
+                    Session::setFlash('success', 'L’article a bien été créé ✅');
+                    if (is_array($data['image']) && $data['image']['size'] > 0) {
+                        $path = Upload::save($data['image'], $post->getImage());
+                    }
+                } else {
+                    Session::setFlash('danger', "Une erreur est survenue lors de la création de l’article.");
+                }
+
+                header('Location: ' . $link);
+                exit;
+            } else {
+                $errors = $v->errors();
+            }
+        }
+
+        $form = new Form($post, $errors);
+        return $this->render('admins/post/new', compact('form', 'categories', 'post', 'link', 'errors', 'title', 'active'));
     }
 }
