@@ -4,6 +4,7 @@ namespace App\Validators;
 
 use Valitron\Validator as ValitronValidator;
 use App\Models\Repository\Repository;
+use App\Config\Config;
 use finfo;
 
 abstract class ValidatorBase
@@ -230,12 +231,15 @@ abstract class ValidatorBase
                 if (empty($value['size'])) return false;
             }
 
-            $mimes = ['image/jpeg', 'image/png', 'image/gif'];
+            $mimes = Config::IMAGE_MIME_TYPES;
             if (empty($value['size'])) return true;
             if (empty($value['tmp_name']) || !is_uploaded_file($value['tmp_name'])) return false;
 
             $finfo = new finfo(FILEINFO_MIME_TYPE);
-            return in_array($finfo->file($value['tmp_name']), $mimes, true);
+            $mime = $finfo->file($value['tmp_name']);
+
+            // ✅ Validation basée sur la même constante
+            return in_array($mime, array_keys(Config::IMAGE_MIME_TYPES), true);
         }, " une image valide est requise.");
     }
 

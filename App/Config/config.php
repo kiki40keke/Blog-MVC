@@ -40,4 +40,15 @@ class Config
         self::load();
         return self::$settings[$key] ?? $default;
     }
+
+    public const IMAGE_MIME_TYPES = [
+        'image/jpeg' => 'jpg',
+        'image/png'  => 'png',
+        'image/gif'  => 'gif',
+        // Tu peux en ajouter ici :
+        'image/webp' => 'webp',
+        'image/svg+xml' => 'svg',
+        'image/bmp' => 'bmp',
+        'image/tiff' => 'tiff',
+    ];
 }

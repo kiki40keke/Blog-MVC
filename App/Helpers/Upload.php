@@ -2,13 +2,14 @@
 
 namespace App\Helpers;
 
+use App\Config\Config;
+
+
+
 final class Upload
 {
     /** Dossier web (relatif à /public) pour servir les images */
     public const REL_DIR = '/img/post/';
-
-
-
 
     public static function renameFile(array $image, string $slug, ?string $prefix = null): ?string
     {
@@ -37,16 +38,12 @@ final class Upload
         if (empty($file['tmp_name']) || !is_uploaded_file($file['tmp_name'])) {
             return null;
         }
-
+        
         $finfo = new \finfo(FILEINFO_MIME_TYPE);
-        $mime  = $finfo->file($file['tmp_name']);
+        $mime = $finfo->file($file['tmp_name']);
 
-        return match ($mime) {
-            'image/jpeg' => 'jpg',
-            'image/png'  => 'png',
-            'image/gif'  => 'gif',
-            default      => null,
-        };
+        // ✅ Recherche directe dans la constante Config
+        return Config::IMAGE_MIME_TYPES[$mime] ?? null;
     }
 
     /**
