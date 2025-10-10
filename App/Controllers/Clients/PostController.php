@@ -13,7 +13,6 @@ class PostController extends BaseController
         $title = 'Accueil';
         $active = 'articles';
 
-        $title = "Mon blog";
         $pdo = Connection::getPDO();
 
         //Pagination
