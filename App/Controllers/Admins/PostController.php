@@ -149,4 +149,26 @@ class PostController extends BaseController
         $form = new Form($post, $errors);
         return $this->render('admins/post/new', compact('form', 'categories', 'post', 'link', 'errors', 'title', 'active'));
     }
+
+    public function delete(int $id): void
+    {
+        $link = $this->router->url('admin_posts');
+
+        $filemage = $_POST['image'] ?? null;
+        $pdo = Connection::getPDO();
+
+        $table = new PostRepository($pdo);
+        //$v = Upload::deleteFile($filemage);
+
+
+        if ($table->deletePost($id)) {
+            Upload::deleteFile($filemage);
+            Session::setFlash('success', "L’article #{$id} a été supprimé 🗑️");
+        } else {
+            Session::setFlash('error', "Une erreur est survenue lors de la suppression de l’article #{$id}.");
+        }
+        http_response_code(301);
+        header('Location: ' . $link);
+        exit();
+    }
 }
