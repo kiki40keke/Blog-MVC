@@ -2,9 +2,15 @@
 
 namespace App\Controllers\Admins;
 
+use App\HTML\Form;
 use App\Helpers\Text;
+use App\Helpers\Upload;
 use App\Core\Connection;
+use App\Helpers\Session;
+use App\Helpers\Hydrator;
+use App\Validators\PostValidator;
 use App\Controllers\BaseController;
+use App\Models\Repository\CategoryRepository;
 use App\Models\Repository\PostRepository;
 
 class PostController extends BaseController
@@ -35,5 +41,59 @@ class PostController extends BaseController
         $linkedit = $this->router->url('admin_post_edit', ['id' => $post->getId()]);
         $linkdelete = $this->router->url('admin_post_delete', ['id' => $post->getId()]);
         return $this->render('admins/post/show', compact('title', 'post', 'link', 'linkedit', 'linkdelete'));
+    }
+
+    public function edit(int $id): string
+    {
+        $title = "Modification de l'article #$id";
+        $active = 'articles';
+        $link = $this->router->url('admin_posts');
+
+        $pdo = Connection::getPDO();
+
+        $table = new PostRepository($pdo);
+        $post = $table->findPost($id);
+
+        $table->hydratePost($post);
+        $categoryTable = new CategoryRepository($pdo);
+        $categories = $categoryTable->listCategorie();
+
+        $errors = [];
+
+        if (!empty($_POST)) {
+            //dd($post->getId());
+            //dd($categories);
+
+            $data = $_POST + ['categories_id' => []] + $_FILES;
+
+            $v = new PostValidator($data, $table, $categories, $post->getId());
+
+            if ($v->validate()) {
+                Hydrator::hydrate($post, $data, ['name', 'slug', 'content', 'created_at', 'image']);
+                $idCategories = array_values(array_unique(
+                    array_filter(array_map('intval', $data['categories_id']), fn($v) => $v > 0)
+                ));
+
+                $request = $table->updatePost($post, $idCategories);
+                //dd($request);
+                if ($request) {
+                    Session::setFlash('success', "L’article #{$id} a bien été mis à jour ✅");
+
+                    if (is_array($data['image']) && $data['image']['size'] > 0) {
+                        $path = Upload::save($data['image'], $post->getImage());
+                    }
+                } else {
+                    Session::setFlash('danger', "Une erreur est survenue lors de la mise à jour de l’article #{$id}.");
+                }
+
+                $table->hydratePost($post);
+            } else {
+                Session::setFlash('danger', "Impossible de mettre à jour l’article #{$id}.");
+                $errors = $v->errors();
+            }
+        }
+
+        $form = new Form($post, $errors);
+        return $this->render('admins/post/edit', compact('form', 'categories', 'post', 'link', 'errors', 'title', 'active'));
     }
 }
