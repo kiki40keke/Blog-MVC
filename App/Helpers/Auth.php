@@ -16,8 +16,10 @@ class Auth
         return self::isLoggedIn() ? $_SESSION['user'] : null;
     }
 
-    public static function requireLogin(string $redirect = '/login', string $flashMessage = 'Veuillez vous connecter pour accéder à cette page.'): void
+    public static function requireLogin($router): void
     {
+        $redirect = $router->url('login');
+        $flashMessage = 'Veuillez vous connecter pour accéder à cette page.';
         if (!self::isLoggedIn()) {
             Session::setFlash('danger', $flashMessage);
             header('Location: ' . $redirect);

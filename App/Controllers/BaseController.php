@@ -29,7 +29,7 @@ abstract class BaseController
 
         if ($this->isAdmin) {
             // Exige connexion
-            // Auth::requireLogin();
+            Auth::requireLogin($this->router);
 
             $this->home = $this->router->url('admin_posts');
             $this->menuAvecUrls = [
@@ -59,11 +59,16 @@ abstract class BaseController
 
     /**
      * Rendu d’une vue avec données et layout.
+     *
+     * @param string $view
+     * @param array $data
+     * @param string $layout
+     * @return string
      */
     protected function render(string $view, array $data = [], string $layout = 'layouts/default.php'): string
     {
         // Injecte les données globales pour les vues
-        $data = array_merge($data, [
+         $data = array_merge($data, [
             'menuAvecUrls' => $this->menuAvecUrls,
             'home' => $this->home,
             'isAdmin' => $this->isAdmin
