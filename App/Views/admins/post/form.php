@@ -3,6 +3,8 @@
 use App\Helpers\Upload;
 ?>
 <form action="" method="POST" enctype="multipart/form-data">
+    <?= \App\Helpers\Csrf::field() ?>
+
     <?= $form->input('name', 'Titre', 'Text'); ?>
     <?= $form->input('slug', 'Slug', 'Text'); ?>
     <?= $form->textArea('content', 'Contenu'); ?>

@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Core\Router;
 use App\Core\Routes;
 use App\Config\Config;
+use App\Middleware\CsrfMiddleware;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
@@ -17,6 +18,11 @@ Config::load();
 // ----- Paramètres globaux
 define('APP_TIMEZONE', Config::get('timezone', 'UTC'));
 date_default_timezone_set(APP_TIMEZONE);
+session_set_cookie_params([
+    'httponly' => true,
+    'secure'   => isset($_SERVER['HTTPS']), // true en prod HTTPS
+    'samesite' => 'Lax',                    // 'Strict' si compatible
+]);
 session_start();
 
 // ----- BASE_URL (pour tes assets)
@@ -43,6 +49,7 @@ $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
 $whoops->register();
 
 
+CsrfMiddleware::handle();
 
 // ------------------------------------------------------------------
 // Router : envoi vers les contrôleurs

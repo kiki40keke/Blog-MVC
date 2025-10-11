@@ -5,6 +5,7 @@
 <?php endif ?>
 
 <form action="" method="post">
+<?= \App\Helpers\Csrf::field() ?>
     <?= $form->input('username', 'Nom', 'text'); ?>
     <?= $form->input('password', 'Mot de passe', 'password'); ?>
     <input type="hidden" name="login" value="1">
