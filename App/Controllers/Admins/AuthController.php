@@ -4,20 +4,12 @@ namespace App\Controllers\Admins;
 
 use App\HTML\Form;
 use App\Helpers\Auth;
-use App\Helpers\Date;
-use App\Helpers\Text;
-use App\Helpers\Upload;
 use App\Core\Connection;
 use App\Helpers\Session;
-use App\Helpers\Hydrator;
-use App\Models\Entity\Post;
 use App\Models\Entity\User;
-use App\Validators\PostValidator;
 use App\Validators\UserValidator;
 use App\Controllers\BaseController;
-use App\Models\Repository\PostRepository;
 use App\Models\Repository\UserRepository;
-use App\Models\Repository\CategoryRepository;
 
 class AuthController extends BaseController
 {
