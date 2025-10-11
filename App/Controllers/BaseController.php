@@ -68,7 +68,7 @@ abstract class BaseController
     protected function render(string $view, array $data = [], string $layout = 'layouts/default.php'): string
     {
         // Injecte les données globales pour les vues
-         $data = array_merge($data, [
+        $data = array_merge($data, [
             'menuAvecUrls' => $this->menuAvecUrls,
             'home' => $this->home,
             'isAdmin' => $this->isAdmin
