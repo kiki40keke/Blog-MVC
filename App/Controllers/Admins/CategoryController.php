@@ -95,4 +95,18 @@ class CategoryController extends BaseController
         $active = 'categories';
         return $this->render('admins/category/edit', compact('title', 'form', 'errors', 'link', 'active'));
     }
+
+    public function delete(int $id): void
+    {
+        $link = $this->router->url('admin_categories');
+
+        $pdo = Connection::getPDO();
+
+        $table = new CategoryRepository($pdo);
+        $table->deleteCategory($id);
+        Session::setFlash('success', "La categorie #{$id} a été supprimé 🗑️");
+        http_response_code(301);
+        header('Location: ' . $link);
+        exit();
+    }
 }
