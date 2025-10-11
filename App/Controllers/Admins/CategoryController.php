@@ -68,4 +68,31 @@ class CategoryController extends BaseController
         $active = 'categories';
         return $this->render('admins/category/new', compact('title', 'form', 'errors', 'link', 'active'));
     }
+
+    public function edit(int $id): string
+    {
+        $link = $this->router->url('admin_categories');
+
+        $pdo = Connection::getPDO();
+
+        $table = new CategoryRepository($pdo);
+        $category = $table->findCategory($id);
+        $errors = [];
+        if (!empty($_POST)) {
+            $v = new CategoryValidator($_POST, $table, $category->getId());
+            if ($v->validate()) {
+                Hydrator::hydrate($category, $_POST, ['name', 'slug']);
+
+                $table->updateCategory($category);
+                Session::setFlash('success', "L’article #{$id} a bien été mis à jour ✅");
+            } else {
+                Session::setFlash('danger', "Impossible de mettre à jour l’article #{$id}.");
+                $errors = $v->errors();
+            }
+        }
+        $form = new Form($category, $errors);
+        $title = "Modification de la categorie #$id";
+        $active = 'categories';
+        return $this->render('admins/category/edit', compact('title', 'form', 'errors', 'link', 'active'));
+    }
 }
