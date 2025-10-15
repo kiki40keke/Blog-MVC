@@ -23,9 +23,9 @@ final class URL
         return $param;
     }
 
-    public static function isAdminUrl(): bool
+     public static function isAdminUrl(?string $uri = null): bool
     {
-        $uri  = $_SERVER['REQUEST_URI'] ?? '/';
+        $uri  = $uri ?? ($_SERVER['REQUEST_URI'] ?? '/');
         $path = parse_url($uri, PHP_URL_PATH);
         return str_starts_with($path, '/admin');
     }
