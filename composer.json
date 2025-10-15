@@ -25,6 +25,7 @@
   "test": "phpunit --colors=always",
   "unit": "phpunit --colors=always --testsuite=unit",
   "helpers": "phpunit --colors=always --testsuite=helpers",
+  "models": "phpunit --colors=always --testsuite=models",
   "validators": "phpunit --colors=always --testsuite=validators"
 }
 

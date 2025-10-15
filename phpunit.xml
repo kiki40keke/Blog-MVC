@@ -4,7 +4,9 @@
         <testsuite name="helpers">
             <directory>tests/Helpers</directory>
         </testsuite>
-
+        <testsuite name="models">
+            <directory>tests/Models</directory>
+        </testsuite>
         <testsuite name="validators">
             <directory>tests/Validators</directory>
         </testsuite>
