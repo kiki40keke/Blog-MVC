@@ -4,20 +4,13 @@ namespace App\Helpers;
 
 final class URL
 {
-    // Permet d'injecter les paramètres de requête GET pour rendre la classe testable
     private static array $query = [];
 
-    /**
-     * Définit les paramètres de requête à utiliser (utile pour les tests)
-     */
     public static function setQuery(array $query): void
     {
         self::$query = $query;
     }
 
-    /**
-     * Récupère la valeur d'un paramètre GET sous forme d'entier
-     */
     public static function getInt(string $name, ?int $default = null): ?int
     {
         $query = self::$query ?: $_GET;
@@ -43,6 +36,7 @@ final class URL
     {
         $uri  = $uri ?? ($_SERVER['REQUEST_URI'] ?? '/');
         $path = parse_url($uri, PHP_URL_PATH);
-        return str_starts_with($path, '/admin');
+        // Correction ici : match seulement /admin ou /admin/...
+        return preg_match('#^/admin(/|$)#', $path) === 1;
     }
 }
